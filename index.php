@@ -5,6 +5,8 @@ $pilots      = []; //Guarda informações sobre o piloto
 $pilots_time = []; //Guarda informações sobre o tempo do piloto mais proximo
 $v_media     = []; //Guarda informações para calcular a velocidade média durante toda a corrida
 $position    = 1;  //Ordem de chegada
+$best_time   = ''; //Pega a melhor volta da corrida
+$best_pilot  = ''; //Marca qual o piloto fez a melhor volta
 
 uasort($results, function($a,$b)
 {   //Ordenando o array por hora do menor para o maior
@@ -55,6 +57,25 @@ foreach($results as $result)
         'QtdVolta' => ($v_media[$result['Id']]['QtdVolta']??0) + 1,
         'Piloto'   => $result['Piloto']
     ];
+
+    if($best_time == "")
+    {
+        $best_time = $result['TVolta'];
+
+    }else{
+
+        $t  = explode('.',$result['TVolta']); //Tempo da volta
+        $bt = explode('.',$best_time);        //Tempo da melhor volta
+
+        if(strtotime('0:'.$bt[0]) >= strtotime('0:'.$t[0]))
+        {   //Pega a melhor volta da corrida
+            if($bt[1] > $t[1])
+            {   //Verifica o milisegundo, pega se for menor que a melhor volta
+                $best_time  = $result['TVolta'];
+                $best_pilot = $result['Piloto'];
+            }
+        }
+    }
 }
 
 function calcHours($temp_start, $temp_finish)
@@ -110,7 +131,12 @@ function calcHours($temp_start, $temp_finish)
             }
             ?>
         </table>
-        <label><p align=left><strong>Duração da Corrida: <?=$timeRun?></strong></p></label>
+        <table>
+            <tr>
+                <td style="width:50%"><label><p align=left><strong>Duração da Corrida: <?=$timeRun?></strong></p></label></td>
+                <td style="width:50%"><label><p align=right><strong>Melhor Volta Realizada Por: <?=$best_pilot?> com tempo de: <?=$best_time?></strong></p></label></td>
+            </tr>
+        </table>
         <div>
             <?php
             foreach($pilots_time as $pilots){
