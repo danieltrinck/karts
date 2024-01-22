@@ -5,20 +5,10 @@ body, ul {
 ul {
     list-style: none;
 }
-.header {
-    min-width: 1024px;
-}
-@media (max-width: 1024px) {
-    .header{
-        overflow: scroll;
-    }
-}
-.header div, .body div{
-    display: inline-block;
-    width: 24.5%;
-    min-width: 252.25px;
-    text-align: left;
-    color: #4e7cb9;
+
+table td{
+    padding: 4px;
+    border-bottom: 1px solid #ddd;
 }
 .body div {
     color: #000;

@@ -86,22 +86,24 @@ function calcHours($temp_start, $temp_finish)
 <body>
     <div class="content">
         <label><p align=center><strong>Resultado da corrida por ordem de chegada</strong></p></label>
-        <div class="header">
-            <div>Posição de Chegada</div>
-            <div>Código do Piloto</div>
-            <div>Nome do Piloto</div>
-            <div>Qtde de Voltas Completadas</div>
-        </div>
-        <div class="body">
+        <table>
+        <tr>
+            <td>Posição de Chegada</td>
+            <td>Código do Piloto</td>
+            <td>Nome do Piloto</td>
+            <td>Qtde de Voltas Completadas</td>
+        </tr>
             <?php
             foreach($pilots as $pilot){
-                echo "<div>".$pilot['Position']."</div>";
-                echo "<div>".$pilot['Id']."</div>";
-                echo "<div>".$pilot['Piloto']."</div>";
-                echo "<div>".$pilot['NVolta']."</div>";
+                echo "<tr>";
+                echo "<td>".$pilot['Position']."</td>";
+                echo "<td>".$pilot['Id']."</td>";
+                echo "<td>".$pilot['Piloto']."</td>";
+                echo "<td>".$pilot['NVolta']."</td>";
+                echo "</tr>";
             }
             ?>
-        </div>
+        </table>
         <label><p align=left><strong>Duração da Corrida: <?=$timeRun?></strong></p></label>
         <div>
             <?php
