@@ -1,9 +1,10 @@
 <?php
 require "./api/consulta.php";
-$pilots = [];
-$pilots_time = [];
-$v_media = [];
-$position = 1;
+
+$pilots      = []; //Guarda informações sobre o piloto
+$pilots_time = []; //Guarda informações sobre o tempo do piloto mais proximo
+$v_media     = []; //Guarda informações para calcular a velocidade média durante toda a corrida
+$position    = 1;  //Ordem de chegada
 
 uasort($results, function($a,$b)
 {   //Ordenando o array por hora do menor para o maior
@@ -13,6 +14,7 @@ uasort($results, function($a,$b)
     return ($a['Hora'] < $b['Hora']) ? -1 : 1;
 });
 
+//Calcula o tempo total da corrida
 $timeRun = calcHours($results[0]['Hora'], $results[count($results)-1]['Hora']);
 
 uasort($results, function($a,$b)
@@ -28,7 +30,7 @@ foreach($results as $result)
 
     if(empty($pilots[$result['Id']]))
     {
-        $result['Position'] = $position;
+        $result['Position']    = $position;
         $pilots[$result['Id']] = $result;
         $position++;
 
@@ -43,7 +45,11 @@ foreach($results as $result)
             ];
         }
     }
+    
+    //Guarda o último Id do piloto para calcular a distância do piloto da frente
     $last_key = $result['Id'];
+
+    //Soma as velocidades média de cada volta de cada corredor e calcula a velocidade média durante toda a corrida.
     $v_media[$result['Id']] = [
         'VMedia'   => ($v_media[$result['Id']]['VMedia']??0) + str_replace(',','.',$result['VMedia']),
         'QtdVolta' => ($v_media[$result['Id']]['QtdVolta']??0) + 1,

@@ -1,5 +1,5 @@
 <?php
-
+//simula os resultados vindos de alguma requisição
 $results = [
     [
         "Hora"    => "23:49:08.277",
